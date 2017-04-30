@@ -264,7 +264,6 @@ function filter(form) {
     //    "filters": filters,
     //};
     let request = filters;
-    console.log(request);
 
     $.post("api/filter", request, function(response) {
         if (response["ok"]) {
@@ -272,6 +271,22 @@ function filter(form) {
             updateTable(response["table"], "#filtered");
         } else {
             presentAlert("alert-danger", "Unable to filter data")
+        }
+    });
+    return false;
+}
+
+function upload(form) {
+    var repo_name = document.getElementById("repoName").value;
+    var table_name = document.getElementById("tableName").value;
+    var request = {"uploadTable" : form.uploadTable.value,
+                   "repoName" : repo_name,
+                   "tableName" : table_name};
+    $.post("api/upload", request, function(response) {
+        if (response["ok"]) {
+            presentAlert("alert-success", "Filtered table uploaded");
+        } else {
+            presentAlert("alert-danger", "Unable to upload filtered table");
         }
     });
     return false;
